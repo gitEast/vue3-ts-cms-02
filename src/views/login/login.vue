@@ -1,23 +1,40 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-25 14:03:31
- * @LastEditTime: 2021-11-26 08:50:02
+ * @LastEditTime: 2021-11-30 14:42:41
  * @LastEditors: Please set LastEditors
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Description: login 页面
  * @FilePath: \vue3-ts-cms-02\src\views\login\login.vue
 -->
 <template>
-  <div>Login</div>
+  <div class="login">
+    <login-panel />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import LoginPanel from './cpns/login-panel.vue'
+
 export default defineComponent({
+  components: {
+    LoginPanel
+  },
   setup() {
     return {}
   }
 })
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+.login {
+  background-image: url('~assets/img/login-bg.svg');
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+</style>

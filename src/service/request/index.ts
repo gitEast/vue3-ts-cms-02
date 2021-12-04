@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-26 19:46:48
- * @LastEditTime: 2021-11-28 21:08:36
+ * @LastEditTime: 2021-11-29 09:50:14
  * @LastEditors: Please set LastEditors
  * @Description: 封装 EastRequest 类
  * @FilePath: \vue3-ts-cms-02\src\service\request\index.ts
@@ -9,7 +9,7 @@
 import axios from 'axios'
 
 import type { AxiosInstance, AxiosResponse } from 'axios'
-import type { EastRequestConfig, EastInterceptor, ResponseType } from './type'
+import type { EastRequestConfig, EastInterceptor } from './type'
 
 class EastRequest {
   instance: AxiosInstance
@@ -73,7 +73,7 @@ class EastRequest {
     return this.request<T>({ ...config, method: 'DELETE' })
   }
 
-  patch<T>(config: EastRequest<T>): Promise<T> {
+  patch<T>(config: EastRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH' })
   }
 }

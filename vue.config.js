@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-11-25 10:23:26
- * @LastEditTime: 2021-11-27 17:55:51
+ * @LastEditTime: 2021-12-01 16:55:51
  * @LastEditors: Please set LastEditors
  * @Description: 修改 Vue CLI 配置
  * @FilePath: \vue3-ts-cms-02\vue.config.js
@@ -26,12 +26,25 @@ module.exports = {
   //     })
   //   ]
   // }
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: 'http://152.136.185.210:5000',
+        pathRewrite: {
+          '^/api': ''
+        },
+        changeOrigin: true
+      }
+    }
+  },
 
   configureWebpack: (config) => {
     config.resolve.alias = {
       '@': path.resolve(__dirname, 'src'),
       components: '@/components',
-      views: '@/views'
+      views: '@/views',
+      assets: '@/assets',
+      utils: '@/utils'
     }
   }
   // 链式方法
