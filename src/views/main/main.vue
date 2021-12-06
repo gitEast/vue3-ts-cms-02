@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-11-25 14:03:25
- * @LastEditTime: 2021-12-05 11:58:27
+ * @LastEditTime: 2021-12-06 10:00:21
  * @LastEditors: Please set LastEditors
  * @Description: 所有页面的布局
  * @FilePath: \vue3-ts-cms-02\src\views\main\main.vue
@@ -9,8 +9,8 @@
 <template>
   <div class="main">
     <el-container>
-      <el-aside width="210px">
-        <nav-menu />
+      <el-aside :width="isCollapse ? '60px' : '210px'">
+        <nav-menu :collapse="isCollapse" />
       </el-aside>
       <el-container>
         <el-header>
@@ -37,9 +37,9 @@ export default defineComponent({
     const isCollapse = ref(false)
     const handleFoldChange = (isFold: boolean) => {
       isCollapse.value = isFold
-      console.log(isCollapse.value)
     }
     return {
+      isCollapse,
       handleFoldChange
     }
   }
@@ -63,6 +63,7 @@ export default defineComponent({
   background-color: rgb(12, 33, 53);
   color: #fff;
   line-height: 200px;
+  transition: width 0.3s linear;
 }
 
 .el-main {

@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-04 14:02:51
- * @LastEditTime: 2021-12-04 14:54:31
+ * @LastEditTime: 2021-12-06 10:02:37
  * @LastEditors: Please set LastEditors
  * @Description: 菜单
  * @FilePath: \vue3-ts-cms-02\src\components\nav-menu\src\nav-menu.vue
@@ -10,13 +10,14 @@
   <div class="nav-menu">
     <div class="logo">
       <img class="img" src="~@/assets/img/logo.svg" alt="logo" />
-      <span>Vue3 + TS</span>
+      <span v-if="!collapse" class="title">Vue3+TS</span>
     </div>
     <el-menu
       background-color="#0c2135"
       text-color="#b7bdc3"
       active-text-color="#0a60bd"
       class="el-menu-vertical"
+      :collapse="collapse"
     >
       <template v-for="subMenu in userMenus" :key="subMenu.id">
         <template v-if="subMenu.type === 1">
@@ -49,6 +50,12 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 
 export default defineComponent({
+  props: {
+    collapse: {
+      type: Boolean,
+      required: true
+    }
+  },
   setup() {
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
