@@ -1,9 +1,9 @@
 /*
  * @Author: your name
  * @Date: 2021-11-26 13:46:57
- * @LastEditTime: 2021-12-04 14:31:14
+ * @LastEditTime: 2021-12-08 15:30:02
  * @LastEditors: Please set LastEditors
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Description: 注册 element plus 组件的封装
  * @FilePath: \vue3-ts-cms-02\src\global\element-plus.ts
  */
 import { App } from 'vue'
@@ -23,7 +23,18 @@ import {
   ElMenu,
   ElSubMenu,
   ElMenuItem,
-  ElMain
+  ElMain,
+  ElEmpty,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElRow,
+  ElCol,
+  ElSelect,
+  ElOption,
+  ElDatePicker,
+  ElBreadcrumb,
+  ElBreadcrumbItem
 } from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
 
@@ -43,7 +54,18 @@ const cpns = [
   ElMain,
   ElMenu,
   ElSubMenu,
-  ElMenuItem
+  ElMenuItem,
+  ElEmpty,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElRow,
+  ElCol,
+  ElSelect,
+  ElOption,
+  ElDatePicker,
+  ElBreadcrumb,
+  ElBreadcrumbItem
 ]
 
 export function registerElementPlus(app: App): void {

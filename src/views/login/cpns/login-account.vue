@@ -57,7 +57,6 @@ export default defineComponent({
             localCache.deleteCache('name')
             localCache.deleteCache('password')
           }
-          console.log('真正的登录逻辑', account.name, account.password)
           store.dispatch('login/accountLoginAction', { ...account })
         }
       })

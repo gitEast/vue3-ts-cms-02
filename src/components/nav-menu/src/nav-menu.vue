@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-04 14:02:51
- * @LastEditTime: 2021-12-06 10:02:37
+ * @LastEditTime: 2021-12-08 15:13:29
  * @LastEditors: Please set LastEditors
  * @Description: 菜单
  * @FilePath: \vue3-ts-cms-02\src\components\nav-menu\src\nav-menu.vue
@@ -18,6 +18,8 @@
       active-text-color="#0a60bd"
       class="el-menu-vertical"
       :collapse="collapse"
+      :default-active="defaultActive"
+      router
     >
       <template v-for="subMenu in userMenus" :key="subMenu.id">
         <template v-if="subMenu.type === 1">
@@ -28,7 +30,9 @@
             </template>
             <!-- 二级菜单显示 -->
             <template v-for="menu in subMenu.children" :key="menu.id">
-              <el-menu-item :index="menu.id + ''">{{ menu.name }}</el-menu-item>
+              <el-menu-item :index="menu.url">
+                {{ menu.name }}
+              </el-menu-item>
             </template>
           </el-sub-menu>
         </template>
@@ -46,6 +50,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 import { useStore } from '@/store'
 
@@ -57,12 +62,19 @@ export default defineComponent({
     }
   },
   setup() {
+    // 用户名
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
-    console.log(userMenus.value)
+
+    // 刷新后，菜单选中
+    const defaultActive = computed(() => {
+      const route = useRoute()
+      return route.path
+    })
 
     return {
-      userMenus
+      userMenus,
+      defaultActive
     }
   }
 })

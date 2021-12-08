@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-29 10:24:35
- * @LastEditTime: 2021-12-01 16:40:08
+ * @LastEditTime: 2021-12-07 09:37:02
  * @LastEditors: Please set LastEditors
  * @Description: tabs 组件
  * @FilePath: \vue3-ts-cms-02\src\views\login\cpns\login-tabs.vue
@@ -59,7 +59,6 @@ export default defineComponent({
     const AccountRef = ref<InstanceType<typeof LoginAccount>>()
     const PhoneRef = ref<InstanceType<typeof LoginPhone>>()
     const handleLogin = () => {
-      console.log('登录按钮被点击')
       if (currentTab.value === accountTab) {
         AccountRef.value?.loginAction(ifKeepPwd.value)
       } else {

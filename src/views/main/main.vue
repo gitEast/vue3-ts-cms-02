@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-11-25 14:03:25
- * @LastEditTime: 2021-12-06 10:00:21
+ * @LastEditTime: 2021-12-08 15:07:50
  * @LastEditors: Please set LastEditors
  * @Description: 所有页面的布局
  * @FilePath: \vue3-ts-cms-02\src\views\main\main.vue
@@ -16,7 +16,9 @@
         <el-header>
           <nav-header @foldChange="handleFoldChange" />
         </el-header>
-        <el-main>Main</el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -38,6 +40,7 @@ export default defineComponent({
     const handleFoldChange = (isFold: boolean) => {
       isCollapse.value = isFold
     }
+
     return {
       isCollapse,
       handleFoldChange
@@ -70,7 +73,7 @@ export default defineComponent({
   background-color: #e9eef3;
   color: var(--el-text-color-primary);
   text-align: center;
-  padding: 0;
+  padding: 20px;
 }
 
 body > .el-container {

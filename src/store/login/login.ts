@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-01 08:54:17
- * @LastEditTime: 2021-12-04 13:34:46
+ * @LastEditTime: 2021-12-07 17:31:28
  * @LastEditors: Please set LastEditors
  * @Description: login 模块的 vuex
  * @FilePath: \vue3-ts-cms-02\src\store\login\login.ts
@@ -19,6 +19,7 @@ import {
 } from '@/service/login/login'
 import localCache from '@/utils/cache'
 import router from '@/router'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -35,9 +36,14 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserInfo(state, payload: any) {
       state.userInfo = payload
+      console.log(payload)
     },
     changeUserMenus(state, payload: any) {
       state.userMenus = payload
+      const childrenRoutes = mapMenusToRoutes(state.userMenus)
+      childrenRoutes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {
