@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-12-07 18:25:01
- * @LastEditTime: 2021-12-08 11:15:18
+ * @LastEditTime: 2021-12-09 14:12:13
  * @LastEditors: Please set LastEditors
  * @Description: form 的配置文件
  * @FilePath: \vue3-ts-cms-02\src\views\main\system\user\config\search.config.ts
@@ -14,7 +14,7 @@ export const searchFormConfig: IForm = {
     {
       label: 'id',
       type: 'input',
-      prop: 'userId',
+      field: 'userId',
       placeholder: '请输入 id',
       rules: [
         {
@@ -27,7 +27,7 @@ export const searchFormConfig: IForm = {
     {
       label: '用户名',
       type: 'input',
-      prop: 'formName',
+      field: 'formName',
       placeholder: '请输入用户名',
       rules: [
         {
@@ -46,7 +46,7 @@ export const searchFormConfig: IForm = {
     {
       label: '密码',
       type: 'password',
-      prop: 'formPassword',
+      field: 'formPwd',
       placeholder: '请输入密码',
       rules: [
         {
@@ -60,7 +60,7 @@ export const searchFormConfig: IForm = {
     {
       label: '喜欢的运动',
       type: 'select',
-      prop: 'sport',
+      field: 'sport',
       placeholder: '请选择喜欢的运动',
       options: [
         {
@@ -84,7 +84,7 @@ export const searchFormConfig: IForm = {
     {
       label: '创建时间',
       type: 'datePicker',
-      prop: 'time',
+      field: 'time',
       otherOptions: {
         placeholders: ['开始日期', '结束日期']
       }

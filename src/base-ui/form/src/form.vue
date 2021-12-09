@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-07 17:40:19
- * @LastEditTime: 2021-12-08 11:16:04
+ * @LastEditTime: 2021-12-09 14:18:49
  * @LastEditors: Please set LastEditors
  * @Description: 封装 form
  * @FilePath: \vue3-ts-cms-02\src\base-ui\form\src\form.vue
@@ -14,7 +14,6 @@
           <el-col v-bind="colLayout">
             <el-form-item
               :label="item.label"
-              :prop="item.prop"
               :rules="item.rules"
               :style="itemStyle"
             >
@@ -22,7 +21,7 @@
                 v-if="item.type === 'input' || item.type === 'password'"
                 :placeholder="item.placeholder"
                 :show-password="item.type === 'password'"
-                v-model="form[item.prop]"
+                v-model="form[item.field]"
               >
               </el-input>
 
@@ -30,7 +29,7 @@
                 v-else-if="item.type === 'select'"
                 :placeholder="item.placeholder"
                 style="width: 100%"
-                v-model="form[item.prop]"
+                v-model="form[item.field]"
               >
                 <el-option
                   v-for="option in item.options"
@@ -46,8 +45,8 @@
                 type="daterange"
                 :start-placeholder="item.otherOptions.placeholders[0]"
                 :end-placeholder="item.otherOptions.placeholders[1]"
-                v-model="form[item.prop]"
                 style="width: 100%"
+                v-model="form[item.field]"
               >
               </el-date-picker>
             </el-form-item>
@@ -59,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 
 import { IFormItems } from '../type'
 
@@ -85,10 +84,25 @@ export default defineComponent({
     itemStyle: {
       type: Object,
       default: () => ({ padding: '5px 20px' })
+    },
+    modelValue: {
+      type: Object,
+      required: true
     }
   },
-  setup() {
-    const form = reactive({})
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const form = ref({ ...props.modelValue })
+
+    watch(
+      form,
+      () => {
+        emit('update:modelValue', form)
+      },
+      {
+        deep: true
+      }
+    )
 
     return {
       form

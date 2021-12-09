@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-01 08:54:17
- * @LastEditTime: 2021-12-07 17:31:28
+ * @LastEditTime: 2021-12-09 18:39:08
  * @LastEditors: Please set LastEditors
  * @Description: login 模块的 vuex
  * @FilePath: \vue3-ts-cms-02\src\store\login\login.ts
@@ -36,7 +36,6 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserInfo(state, payload: any) {
       state.userInfo = payload
-      console.log(payload)
     },
     changeUserMenus(state, payload: any) {
       state.userMenus = payload
