@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-12-07 18:25:01
- * @LastEditTime: 2021-12-09 14:12:13
+ * @LastEditTime: 2021-12-12 15:26:45
  * @LastEditors: Please set LastEditors
  * @Description: form 的配置文件
  * @FilePath: \vue3-ts-cms-02\src\views\main\system\user\config\search.config.ts
@@ -12,22 +12,9 @@ export const searchFormConfig: IForm = {
   labelWidth: '120px',
   formItems: [
     {
-      label: 'id',
-      type: 'input',
-      field: 'userId',
-      placeholder: '请输入 id',
-      rules: [
-        {
-          required: true,
-          message: '必须有输入',
-          trigger: 'blur'
-        }
-      ]
-    },
-    {
       label: '用户名',
       type: 'input',
-      field: 'formName',
+      field: 'name',
       placeholder: '请输入用户名',
       rules: [
         {
@@ -44,9 +31,9 @@ export const searchFormConfig: IForm = {
       ]
     },
     {
-      label: '密码',
-      type: 'password',
-      field: 'formPwd',
+      label: '真实姓名',
+      type: 'input',
+      field: 'realname',
       placeholder: '请输入密码',
       rules: [
         {
@@ -58,33 +45,25 @@ export const searchFormConfig: IForm = {
       ]
     },
     {
-      label: '喜欢的运动',
+      label: '状态',
       type: 'select',
-      field: 'sport',
-      placeholder: '请选择喜欢的运动',
+      field: 'enable',
+      placeholder: '请选择状态',
       options: [
         {
-          label: '篮球',
-          value: 'bascketball'
+          label: '启用',
+          value: 1
         },
         {
-          label: '足球',
-          value: 'football'
-        },
-        {
-          label: '游泳',
-          value: 'swimming'
-        },
-        {
-          label: '跑步',
-          value: 'running'
+          label: '禁用',
+          value: 0
         }
       ]
     },
     {
       label: '创建时间',
       type: 'datePicker',
-      field: 'time',
+      field: 'createAt',
       otherOptions: {
         placeholders: ['开始日期', '结束日期']
       }

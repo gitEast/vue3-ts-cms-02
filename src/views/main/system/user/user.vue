@@ -1,55 +1,57 @@
 <!--
  * @Author: East
  * @Date: 2021-12-06 10:27:53
- * @LastEditTime: 2021-12-09 19:07:30
+ * @LastEditTime: 2021-12-12 20:29:13
  * @LastEditors: Please set LastEditors
  * @Description: 系统管理 - 用户管理 界面
  * @FilePath: \vue3-ts-cms-02\src\views\main\system\user\user.vue
 -->
 <template>
   <div class="user">
-    <page-search :searchFormConfig="searchFormConfig"></page-search>
-    <east-table :listData="userList" :propList="propList">
+    <page-search
+      :searchFormConfig="searchFormConfig"
+      @queryBtnClick="handleQueryClick"
+      @resetBtnClick="handleResetClick"
+    ></page-search>
+    <page-content
+      pageName="users"
+      :tableContentConfig="tableContentConfig"
+      ref="pageContentRef"
+    >
       <template #enable="slotProps">
-        <el-tag>
-          {{ slotProps.row.enable === 1 }}
+        <el-tag :type="slotProps.row.enable === 1 ? 'success' : 'danger'">
+          {{ slotProps.row.enable === 1 ? '启用' : '禁用' }}
         </el-tag>
       </template>
-    </east-table>
+    </page-content>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent } from 'vue'
 
 import PageSearch from '@/components/page-search'
 import { searchFormConfig } from './config/search.config'
-import { useStore } from '@/store'
-import EastTable from '@/base-ui/table'
-import { propList } from './config/content.config'
+import PageContent from '@/components/page-content'
+import { tableContentConfig } from './config/content.config'
+import { usePageSearch } from '@/hooks'
 
 export default defineComponent({
   name: 'user',
   components: {
     PageSearch,
-    EastTable
+    PageContent
   },
   setup() {
-    const store = useStore()
-    store.dispatch('system/getPageListAction', {
-      url: '/users/list',
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
-    const userList = computed(() => store.state.system.userList)
+    const [pageContentRef, handleResetClick, handleQueryClick] = usePageSearch()
 
     return {
       searchFormConfig,
+      tableContentConfig,
 
-      userList,
-      propList
+      pageContentRef,
+      handleResetClick,
+      handleQueryClick
     }
   }
 })

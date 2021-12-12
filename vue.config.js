@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-11-25 10:23:26
- * @LastEditTime: 2021-12-01 16:55:51
+ * @LastEditTime: 2021-12-11 21:16:16
  * @LastEditors: Please set LastEditors
  * @Description: 修改 Vue CLI 配置
  * @FilePath: \vue3-ts-cms-02\vue.config.js

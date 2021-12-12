@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-12-01 08:54:17
- * @LastEditTime: 2021-12-09 18:39:08
+ * @LastEditTime: 2021-12-12 20:24:26
  * @LastEditors: Please set LastEditors
  * @Description: login 模块的 vuex
  * @FilePath: \vue3-ts-cms-02\src\store\login\login.ts
@@ -19,7 +19,7 @@ import {
 } from '@/service/login/login'
 import localCache from '@/utils/cache'
 import router from '@/router'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToRoutes, mapMenusToPermissions } from '@/utils/map-menus'
 
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -27,7 +27,8 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: {},
-      userMenus: []
+      userMenus: [],
+      permissions: []
     }
   },
   mutations: {
@@ -43,6 +44,9 @@ const loginModule: Module<ILoginState, IRootState> = {
       childrenRoutes.forEach((route) => {
         router.addRoute('main', route)
       })
+    },
+    changePermissions(state, payload: string[]) {
+      state.permissions = payload
     }
   },
   actions: {
@@ -65,6 +69,11 @@ const loginModule: Module<ILoginState, IRootState> = {
       commit('changeUserMenus', userMenus)
       localCache.setCache('userMenus', userMenus)
 
+      // 3.1 根据菜单获取按钮权限
+      const permissions = mapMenusToPermissions(userMenus)
+      commit('changePermissions', permissions)
+      localCache.setCache('permissions', permissions)
+
       // 4. 跳转到首页
       router.push('/main')
     },
@@ -80,6 +89,10 @@ const loginModule: Module<ILoginState, IRootState> = {
       const userMenus = localCache.getCache('userMenus')
       if (userMenus) {
         commit('changeUserMenus', userMenus)
+      }
+      const permissions = localCache.getCache('permissions')
+      if (permissions) {
+        commit('changePermissions', permissions)
       }
     }
   }

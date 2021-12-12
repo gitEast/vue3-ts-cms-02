@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-12-09 18:49:17
- * @LastEditTime: 2021-12-12 18:36:33
+ * @LastEditTime: 2021-12-12 20:00:06
  * @LastEditors: Please set LastEditors
  * @Description: table 的 配置
  * @FilePath: \vue3-ts-cms-02\src\views\main\system\user\config\content.config.ts
@@ -9,24 +9,29 @@
 import { ITableProp } from '@/base-ui/table'
 
 export const tableContentConfig: ITableProp = {
+  title: '菜单列表',
   propList: [
     {
       prop: 'name',
-      label: '昵称',
+      label: '菜单名称',
       slotName: 'name',
       width: 140
     },
     {
-      prop: 'realname',
-      label: '姓名',
-      slotName: 'realname',
-      width: 140
+      prop: 'type',
+      label: '类型',
+      slotName: 'type',
+      width: 120
     },
     {
-      prop: 'enable',
-      label: '状态',
-      slotName: 'enable',
-      width: 140
+      prop: 'url',
+      label: '路径',
+      slotName: 'url'
+    },
+    {
+      prop: 'permission',
+      label: '按钮权限',
+      slotName: 'permission'
     },
     {
       prop: 'createAt',
@@ -39,15 +44,16 @@ export const tableContentConfig: ITableProp = {
       slotName: 'updateAt'
     },
     {
-      prop: 'cellphone',
-      label: '手机号',
-      slotName: 'cellphone'
-    },
-    {
       label: '操作',
       slotName: 'handler'
     }
   ],
-  ifSelect: true,
-  ifIndex: true
+  ifSelect: false,
+  childrenProps: {
+    'row-key': 'id',
+    'tree-props': {
+      children: 'children'
+    }
+  },
+  ifFooter: false
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-12-07 08:41:46
- * @LastEditTime: 2021-12-08 15:59:33
+ * @LastEditTime: 2021-12-12 20:10:52
  * @LastEditors: Please set LastEditors
  * @Description: 映射路由
  * @FilePath: \vue3-ts-cms-02\src\utils\map-menus.ts
@@ -66,6 +66,24 @@ export function getBreadcrumbs(userMenus: any[], path: string): IBreadcrumb[] {
   _recurseGetMenu(userMenus)
 
   return crumbs
+}
+
+export function mapMenusToPermissions(userMenus: any[]): string[] {
+  const permissions: string[] = []
+
+  const _recurseGetPermission = (menus: any[]) => {
+    menus.forEach((item) => {
+      if (item.type === 1 || item.type === 2) {
+        _recurseGetPermission(item.children ?? [])
+      } else {
+        permissions.push(item.permission)
+      }
+    })
+  }
+
+  _recurseGetPermission(userMenus)
+
+  return permissions
 }
 
 export { firstPath }

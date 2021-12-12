@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-07 17:40:19
- * @LastEditTime: 2021-12-09 14:18:49
+ * @LastEditTime: 2021-12-12 15:12:47
  * @LastEditors: Please set LastEditors
  * @Description: 封装 form
  * @FilePath: \vue3-ts-cms-02\src\base-ui\form\src\form.vue
@@ -54,6 +54,9 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
@@ -94,10 +97,21 @@ export default defineComponent({
   setup(props, { emit }) {
     const form = ref({ ...props.modelValue })
 
+    // watch(
+    //   () => props.modelValue,
+    //   (newValue) => {
+    //     form.value = newValue
+    //     console.log(123)
+    //   }
+    //   // {
+    //   //   deep: true
+    //   // }
+    // )
+
     watch(
       form,
-      () => {
-        emit('update:modelValue', form)
+      (newValue) => {
+        emit('update:modelValue', newValue)
       },
       {
         deep: true
@@ -116,6 +130,10 @@ export default defineComponent({
   background-color: #fff;
   border-radius: 5px;
   padding: 20px;
-  padding-bottom: 0;
+  padding-bottom: 20px;
+
+  .footer {
+    text-align: right;
+  }
 }
 </style>
