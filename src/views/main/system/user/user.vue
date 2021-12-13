@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-06 10:27:53
- * @LastEditTime: 2021-12-12 20:29:13
+ * @LastEditTime: 2021-12-13 17:17:59
  * @LastEditors: Please set LastEditors
  * @Description: 系统管理 - 用户管理 界面
  * @FilePath: \vue3-ts-cms-02\src\views\main\system\user\user.vue
@@ -24,6 +24,7 @@
         </el-tag>
       </template>
     </page-content>
+    <page-modal :modalConfig="modalConfig"></page-modal>
   </div>
 </template>
 
@@ -32,15 +33,21 @@ import { defineComponent } from 'vue'
 
 import PageSearch from '@/components/page-search'
 import { searchFormConfig } from './config/search.config'
+
 import PageContent from '@/components/page-content'
 import { tableContentConfig } from './config/content.config'
+
+import PageModal from '@/components/page-modal'
+import { modalConfig } from './config/modal.config'
+
 import { usePageSearch } from '@/hooks'
 
 export default defineComponent({
   name: 'user',
   components: {
     PageSearch,
-    PageContent
+    PageContent,
+    PageModal
   },
   setup() {
     const [pageContentRef, handleResetClick, handleQueryClick] = usePageSearch()
@@ -48,6 +55,7 @@ export default defineComponent({
     return {
       searchFormConfig,
       tableContentConfig,
+      modalConfig,
 
       pageContentRef,
       handleResetClick,

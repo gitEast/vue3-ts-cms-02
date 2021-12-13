@@ -1,16 +1,17 @@
 /*
  * @Author: East
  * @Date: 2021-12-09 16:26:03
- * @LastEditTime: 2021-12-12 20:29:38
+ * @LastEditTime: 2021-12-13 17:09:25
  * @LastEditors: Please set LastEditors
  * @Description: vuex - system module
  * @FilePath: \vue3-ts-cms-02\src\store\main\system\system.ts
  */
 import { Module } from 'vuex'
+import { ElMessage } from 'element-plus'
 
 import type { ISystemState, ISystemRequest } from './type'
 import type { IRootState } from '../../type'
-import { getPageListData } from '@/service/main/system/system'
+import { getPageListData, deletePageData } from '@/service/main/system/system'
 
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
@@ -65,6 +66,7 @@ const systemModule: Module<ISystemState, IRootState> = {
     }
   },
   actions: {
+    // 查询
     async getPageListAction({ commit }, payload: ISystemRequest) {
       // 0. 根据 payload.pageName 区别各个页面的不同请求
       const realPath = {
@@ -94,6 +96,27 @@ const systemModule: Module<ISystemState, IRootState> = {
       const { list, totalCount } = pageResult.data
       commit(realPath[payload.pageName].mutation[0], list)
       commit(realPath[payload.pageName].mutation[1], totalCount)
+    },
+    // 删除
+    async deletePageDataAction({ dispatch }, payload: any) {
+      // 发送网络请求
+      const { pageName, id } = payload
+      const url = `/${pageName}/${id}`
+      const { code, data } = await deletePageData(url)
+      if (code === 0) {
+        ElMessage({
+          message: data,
+          type: 'success'
+        })
+      } else {
+        ElMessage.error(data)
+      }
+
+      // 更新数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: payload.queryInfo
+      })
     }
   }
 }
