@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-07 17:40:19
- * @LastEditTime: 2021-12-12 15:12:47
+ * @LastEditTime: 2021-12-13 17:39:12
  * @LastEditors: Please set LastEditors
  * @Description: 封装 form
  * @FilePath: \vue3-ts-cms-02\src\base-ui\form\src\form.vue
@@ -68,7 +68,8 @@ import { IFormItems } from '../type'
 export default defineComponent({
   props: {
     formItems: {
-      type: Array as PropType<IFormItems[]>
+      type: Array as PropType<IFormItems[]>,
+      required: true
     },
     labelWidth: {
       type: String,

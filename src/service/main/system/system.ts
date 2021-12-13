@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-12-09 16:32:04
- * @LastEditTime: 2021-12-11 18:53:07
+ * @LastEditTime: 2021-12-13 16:41:02
  * @LastEditors: Please set LastEditors
  * @Description: system 模块的网络请求
  * @FilePath: \vue3-ts-cms-02\src\service\main\system\system.ts
@@ -13,5 +13,11 @@ export function getPageListData(url: string, queryInfo: any) {
   return eastRequest.post<IDataType>({
     url: url,
     data: queryInfo
+  })
+}
+
+export function deletePageData(url: string) {
+  return eastRequest.delete<IDataType>({
+    url: url
   })
 }
