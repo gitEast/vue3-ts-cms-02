@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-07 17:40:19
- * @LastEditTime: 2021-12-13 17:39:12
+ * @LastEditTime: 2021-12-14 10:18:03
  * @LastEditors: Please set LastEditors
  * @Description: 封装 form
  * @FilePath: \vue3-ts-cms-02\src\base-ui\form\src\form.vue
@@ -16,6 +16,7 @@
               :label="item.label"
               :rules="item.rules"
               :style="itemStyle"
+              v-if="!item.isHidden"
             >
               <el-input
                 v-if="item.type === 'input' || item.type === 'password'"
@@ -101,12 +102,12 @@ export default defineComponent({
     // watch(
     //   () => props.modelValue,
     //   (newValue) => {
-    //     form.value = newValue
-    //     console.log(123)
+    //     // form.value = newValue
+    //     // console.log(123)
+    //   },
+    //   {
+    //     deep: true
     //   }
-    //   // {
-    //   //   deep: true
-    //   // }
     // )
 
     watch(

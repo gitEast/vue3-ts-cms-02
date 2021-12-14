@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-12-09 18:51:11
- * @LastEditTime: 2021-12-12 18:39:54
+ * @LastEditTime: 2021-12-13 17:57:51
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: 封装 table 时使用的类型
  * @FilePath: \vue3-ts-cms-02\src\base-ui\table\type.ts
@@ -19,7 +19,7 @@ export interface ITableProp {
   ifSelect?: boolean
   ifIndex?: boolean
   title?: string
-  childrenProps?: Object
+  childrenProps?: any
   ifHeader?: boolean
   ifFooter?: boolean
 }

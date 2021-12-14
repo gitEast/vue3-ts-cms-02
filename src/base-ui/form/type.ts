@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-12-07 17:51:19
- * @LastEditTime: 2021-12-13 17:29:25
+ * @LastEditTime: 2021-12-14 08:52:10
  * @LastEditors: Please set LastEditors
  * @Description: form 的 类型
  * @FilePath: \vue3-ts-cms-02\src\base-ui\form\type\type.ts
@@ -20,6 +20,7 @@ export interface IFormItems {
   placeholder?: string
   options?: IOptionItem[]
   otherOptions?: any
+  isHidden?: boolean
 }
 
 // 为方便起见，将所有的 prop 放到一起

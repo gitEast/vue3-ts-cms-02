@@ -1,17 +1,22 @@
 /*
  * @Author: East
  * @Date: 2021-12-09 16:26:03
- * @LastEditTime: 2021-12-13 17:09:25
+ * @LastEditTime: 2021-12-14 13:32:55
  * @LastEditors: Please set LastEditors
  * @Description: vuex - system module
  * @FilePath: \vue3-ts-cms-02\src\store\main\system\system.ts
  */
 import { Module } from 'vuex'
-import { ElMessage } from 'element-plus'
+import { ElLoading, ElMessage } from 'element-plus'
 
 import type { ISystemState, ISystemRequest } from './type'
 import type { IRootState } from '../../type'
-import { getPageListData, deletePageData } from '@/service/main/system/system'
+import {
+  getPageListData,
+  deletePageData,
+  createPageData,
+  editPageData
+} from '@/service/main/system/system'
 
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
@@ -66,8 +71,14 @@ const systemModule: Module<ISystemState, IRootState> = {
     }
   },
   actions: {
-    // 查询
+    /** 查询 */
     async getPageListAction({ commit }, payload: ISystemRequest) {
+      // 0-0: loading
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Loading...',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       // 0. 根据 payload.pageName 区别各个页面的不同请求
       const realPath = {
         users: {
@@ -96,8 +107,11 @@ const systemModule: Module<ISystemState, IRootState> = {
       const { list, totalCount } = pageResult.data
       commit(realPath[payload.pageName].mutation[0], list)
       commit(realPath[payload.pageName].mutation[1], totalCount)
+
+      // 0-2: loading 关闭
+      loading.close()
     },
-    // 删除
+    /** 删除 */
     async deletePageDataAction({ dispatch }, payload: any) {
       // 发送网络请求
       const { pageName, id } = payload
@@ -117,6 +131,48 @@ const systemModule: Module<ISystemState, IRootState> = {
         pageName,
         queryInfo: payload.queryInfo
       })
+    },
+    /** 新增 */
+    async createPageDataAction(context, payload: any) {
+      // 发送网络请求
+      const { pageName, createData } = payload
+      const url = `/${pageName}`
+      const { code, data } = await createPageData(url, createData)
+      if (code === 0) {
+        ElMessage({
+          message: data,
+          type: 'success'
+        })
+      } else {
+        ElMessage.error(data)
+      }
+
+      // // 更新数据
+      // dispatch('getPageListAction', {
+      //   pageName,
+      //   queryInfo: payload.queryInfo
+      // })
+    },
+    /** 修改 */
+    async editPageDataAction(context, payload: any) {
+      // 发送网络请求
+      const { pageName, editData, id } = payload
+      const url = `/${pageName}/${id}`
+      const { code, data } = await editPageData(url, editData)
+      if (code === 0) {
+        ElMessage({
+          message: data,
+          type: 'success'
+        })
+      } else {
+        ElMessage.error(data)
+      }
+
+      // // 更新数据
+      // dispatch('getPageListAction', {
+      //   pageName,
+      //   queryInfo: payload.queryInfo
+      // })
     }
   }
 }

@@ -1,23 +1,24 @@
 <!--
  * @Author: East
  * @Date: 2021-12-13 17:14:35
- * @LastEditTime: 2021-12-13 17:51:44
+ * @LastEditTime: 2021-12-14 13:47:36
  * @LastEditors: Please set LastEditors
  * @Description: 模态框 -- 弹出 新建 or 编辑
  * @FilePath: \vue3-ts-cms-02\src\components\page-modal\src\page-modal.vue
 -->
 <template>
-  <el-dialog v-model="dialogVisible" :title="title" width="30%" center>
-    <east-form
-      :colLayout="colLayout"
-      :itemStyle="itemStyle"
-      :formItems="modalConfig"
-      v-model="formData"
-    ></east-form>
+  <el-dialog
+    v-model="dialogVisible"
+    :title="title"
+    width="30%"
+    center
+    destroy-on-close
+  >
+    <east-form v-bind="modalConfig" v-model="formData"></east-form>
     <template #footer>
       <span class="dialog-footer">
         <el-button size="mini" @click="dialogVisible = false">Cancel</el-button>
-        <el-button size="mini" type="primary" @click="dialogVisible = false">
+        <el-button size="mini" type="primary" @click="handleComfirmClick">
           Confirm
         </el-button>
       </span>
@@ -26,9 +27,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType } from 'vue'
+import { defineComponent, ref, PropType, watch } from 'vue'
 
-import EastForm, { IFormItems } from '@/base-ui/form'
+import EastForm, { IFormItems, IForm } from '@/base-ui/form'
+
+import { useStore } from '@/store'
 
 export default defineComponent({
   components: {
@@ -39,29 +42,76 @@ export default defineComponent({
       type: String,
       default: '新建'
     },
-    modalConfig: {
+    modalFormConfig: {
       type: Array as PropType<IFormItems[]>,
+      required: true
+    },
+    defaultInfo: {
+      type: Object,
+      default: () => ({})
+    },
+    pageName: {
+      type: String,
       required: true
     }
   },
-  setup() {
-    const dialogVisible = ref(true)
+  emits: ['refleshPageList'],
+  setup(props, { emit }) {
+    const dialogVisible = ref(false)
 
     // 模态框的 form 布局
-    const colLayout = { span: 24 }
-    const itemStyle = { padding: '0px 10px' }
+    const modalConfig: IForm = {
+      formItems: props.modalFormConfig,
+      itemStyle: { padding: '0px 10px' },
+      colLayout: { span: 24 }
+    }
 
     // form 的数据
     const formData = ref<any>({})
+    watch(
+      () => props.defaultInfo,
+      (newValue) => {
+        for (const item of props.modalFormConfig) {
+          formData.value[item.field] = newValue[item.field]
+        }
+      }
+    )
+
+    // 提交事件
+    const store = useStore()
+    const handleComfirmClick = async () => {
+      console.log('点击 confirm 按钮')
+      if (props.defaultInfo.id) {
+        // 修改
+        await store.dispatch('system/editPageDataAction', {
+          pageName: props.pageName,
+          editData: { ...formData.value },
+          id: props.defaultInfo.id
+        })
+      } else {
+        // 新增
+        await store.dispatch('system/createPageDataAction', {
+          pageName: props.pageName,
+          createData: { ...formData.value }
+        })
+      }
+      dialogVisible.value = false
+      emit('refleshPageList')
+    }
 
     return {
       dialogVisible,
-      colLayout,
-      itemStyle,
-      formData
+      modalConfig,
+      formData,
+      handleComfirmClick
     }
   }
 })
 </script>
 
 <style scoped lang="less"></style>
+<style>
+.el-dialog--center .el-dialog__body {
+  padding: 0 20px 0 0;
+}
+</style>

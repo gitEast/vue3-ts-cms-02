@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-11 17:02:22
- * @LastEditTime: 2021-12-13 17:02:00
+ * @LastEditTime: 2021-12-14 13:22:25
  * @LastEditors: Please set LastEditors
  * @Description: 对 EastTable 进行二次封装
  * @FilePath: \vue3-ts-cms-02\src\components\page-content\src\page-content.vue
@@ -16,7 +16,14 @@
     >
       <!-- header 部分 -->
       <template #rightHandler>
-        <el-button size="mini" type="primary" v-if="isCreate">新增</el-button>
+        <el-button
+          size="mini"
+          type="primary"
+          v-if="isCreate"
+          @click="handleCreateClick"
+        >
+          {{ addBtnLable }}
+        </el-button>
       </template>
 
       <!-- table 部分 -->
@@ -36,7 +43,13 @@
       </template>
 
       <template #handler="scope">
-        <el-button type="text" size="mini" :icon="Edit" v-if="isUpdate">
+        <el-button
+          type="text"
+          size="mini"
+          :icon="Edit"
+          v-if="isEdit"
+          @click="handleEditClick(scope.row)"
+        >
           编辑
         </el-button>
         <el-popconfirm
@@ -79,13 +92,18 @@ export default defineComponent({
     tableContentConfig: {
       type: Object as PropType<ITableProp>,
       required: true
+    },
+    addBtnLable: {
+      type: String,
+      default: '新增'
     }
   },
-  setup(props) {
+  emits: ['createBtnClick', 'editBtnClick'],
+  setup(props, { emit }) {
     // 权限
     const isList = usePermission(props.pageName, 'query')
     const isCreate = usePermission(props.pageName, 'create')
-    const isUpdate = usePermission(props.pageName, 'update')
+    const isEdit = usePermission(props.pageName, 'update')
     const isDelete = usePermission(props.pageName, 'delete')
 
     // 分页相关
@@ -134,19 +152,36 @@ export default defineComponent({
       })
     }
 
+    // 新增事件
+    const handleCreateClick = () => {
+      console.log('page-content 新增')
+      emit('createBtnClick')
+    }
+
+    // 编辑事件：向父组件传递，让它去解决 page-modal 的问题
+    const handleEditClick = (row: any) => {
+      console.log('page-content 编辑', row)
+      emit('editBtnClick', row)
+    }
+
     return {
       pageInfo,
       list,
       count,
+
       Edit,
       Delete,
+
       getPageData,
       propList,
       isCreate,
-      isUpdate,
+      isEdit,
       isDelete,
+
       handleDeleteClick,
-      InfoFilled
+      InfoFilled,
+      handleCreateClick,
+      handleEditClick
     }
   }
 })
