@@ -1,13 +1,13 @@
 <!--
  * @Author: East
  * @Date: 2021-12-11 17:02:22
- * @LastEditTime: 2021-12-14 13:22:25
+ * @LastEditTime: 2021-12-14 23:09:50
  * @LastEditors: Please set LastEditors
  * @Description: 对 EastTable 进行二次封装
  * @FilePath: \vue3-ts-cms-02\src\components\page-content\src\page-content.vue
 -->
 <template>
-  <div class="page-content">
+  <div class="page-content" :key="key">
     <east-table
       :listData="list"
       v-bind="tableContentConfig"
@@ -36,10 +36,12 @@
       </template>
 
       <template #createAt="slotProps">
-        <span v-time-format>{{ slotProps.row.createAt }}</span>
+        <div>
+          <span v-time-format="{ data: slotProps.row.createAt }"></span>
+        </div>
       </template>
       <template #updateAt="slotProps">
-        <span v-time-format>{{ slotProps.row.updateAt }}</span>
+        <span v-time-format="{ data: slotProps.row.updateAt }"></span>
       </template>
 
       <template #handler="scope">
@@ -126,6 +128,7 @@ export default defineComponent({
     }
     getPageData()
 
+    const key = ref<any>()
     const list = computed(() =>
       store.getters['system/pageListData'](props.pageName)
     )
@@ -181,7 +184,8 @@ export default defineComponent({
       handleDeleteClick,
       InfoFilled,
       handleCreateClick,
-      handleEditClick
+      handleEditClick,
+      key
     }
   }
 })

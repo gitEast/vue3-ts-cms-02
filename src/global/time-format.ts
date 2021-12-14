@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-12-11 15:02:44
- * @LastEditTime: 2021-12-11 15:13:17
+ * @LastEditTime: 2021-12-14 23:34:52
  * @LastEditors: Please set LastEditors
  * @Description: 设置全局命令 v-time-format
  * @FilePath: \vue3-ts-cms-02\src\global\time-format.ts
@@ -16,7 +16,8 @@ dayjs.extend(utc)
 export function directiveTimeFormat(app: App): void {
   app.directive('time-format', (el: HTMLElement, binding) => {
     // 将被作为 mounted 和 updated 调用
-    const DATE_TIME_FORMAT: string = binding.value ?? 'YYYY-MM-DD HH:mm:ss'
-    el.innerText = dayjs.utc(el.innerText).format(DATE_TIME_FORMAT)
+    const DATE_TIME_FORMAT: string =
+      binding.value.format ?? 'YYYY-MM-DD HH:mm:ss'
+    el.innerText = dayjs.utc(binding.value.data).format(DATE_TIME_FORMAT)
   })
 }

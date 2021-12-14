@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-09 18:43:25
- * @LastEditTime: 2021-12-12 19:44:24
+ * @LastEditTime: 2021-12-14 23:09:25
  * @LastEditors: Please set LastEditors
  * @Description: 封装 el-table
  * @FilePath: \vue3-ts-cms-02\src\base-ui\table\src\table.vue
@@ -41,7 +41,7 @@
       />
       <template v-for="item in propList" :key="item.slotName">
         <el-table-column v-bind="item" align="center">
-          <template v-slot="scope">
+          <template #default="scope">
             <slot :name="item.slotName" :row="scope.row">
               {{ scope.row[item.slotName] }}
             </slot>
@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import { Document } from '@element-plus/icons'
 
 import { IPropItem } from '../type'
@@ -127,6 +127,13 @@ export default defineComponent({
     const handleCurrentChange = (currentPage: number) => {
       emit('update:page', { ...props.page, currentPage })
     }
+
+    watch(
+      () => props.listData,
+      (newValue) => {
+        console.log(newValue)
+      }
+    )
 
     return {
       currentPage,
