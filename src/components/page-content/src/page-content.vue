@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-11 17:02:22
- * @LastEditTime: 2021-12-14 23:09:50
+ * @LastEditTime: 2021-12-15 11:06:32
  * @LastEditors: Please set LastEditors
  * @Description: 对 EastTable 进行二次封装
  * @FilePath: \vue3-ts-cms-02\src\components\page-content\src\page-content.vue
@@ -144,7 +144,6 @@ export default defineComponent({
     // 删除按钮点击操作
     const handleDeleteClick = (row: any) => {
       // 在 vuex 中进行删除操作
-      console.log('删除')
       store.dispatch('system/deletePageDataAction', {
         pageName: props.pageName,
         id: row.id,
@@ -157,13 +156,11 @@ export default defineComponent({
 
     // 新增事件
     const handleCreateClick = () => {
-      console.log('page-content 新增')
       emit('createBtnClick')
     }
 
     // 编辑事件：向父组件传递，让它去解决 page-modal 的问题
     const handleEditClick = (row: any) => {
-      console.log('page-content 编辑', row)
       emit('editBtnClick', row)
     }
 

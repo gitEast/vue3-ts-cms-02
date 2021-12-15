@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-11-26 08:30:16
- * @LastEditTime: 2021-12-14 10:39:49
+ * @LastEditTime: 2021-12-15 13:29:00
  * @LastEditors: Please set LastEditors
  * @Description: vuex 的 index
  * @FilePath: \vue3-ts-cms-02\src\store\index.ts
@@ -19,7 +19,8 @@ const store = createStore<IRootState>({
   state() {
     return {
       entireDepartment: [],
-      entireRole: []
+      entireRole: [],
+      entireMenu: []
     }
   },
   mutations: {
@@ -28,6 +29,9 @@ const store = createStore<IRootState>({
     },
     changeEntireRole(state, list: any[]) {
       state.entireRole = list
+    },
+    changeEntireMenu(state, list: any[]) {
+      state.entireMenu = list
     }
   },
   actions: {
@@ -41,10 +45,14 @@ const store = createStore<IRootState>({
       const { list: departmentList } = departmentResult.data
       const roleResult = await getPageListData('/role/list', queryInfo)
       const { list: roleList } = roleResult.data
+      // 1.2 请求菜单
+      const menuResult = await getPageListData('/menu/list', {})
+      const { list: menuList } = menuResult.data
 
       // 2. 保存数据到 rootState 中
       commit('changeEntireDepartment', departmentList)
       commit('changeEntireRole', roleList)
+      commit('changeEntireMenu', menuList)
     }
   },
   modules: {
@@ -56,8 +64,8 @@ const store = createStore<IRootState>({
 export default store
 
 // 防止刷新页面，vuex 中数据被清空
-export function setupStore() {
-  store.dispatch('login/loadLocalLogin')
+export async function setupStore() {
+  await store.dispatch('login/loadLocalLogin')
   store.dispatch('getInitialDataAction')
 }
 

@@ -1,7 +1,7 @@
 /*
  * @Author: East
  * @Date: 2021-12-07 08:41:46
- * @LastEditTime: 2021-12-12 20:10:52
+ * @LastEditTime: 2021-12-15 13:48:06
  * @LastEditors: Please set LastEditors
  * @Description: 映射路由
  * @FilePath: \vue3-ts-cms-02\src\utils\map-menus.ts
@@ -9,8 +9,9 @@
 import type { RouteRecordRaw } from 'vue-router'
 import type { IBreadcrumb } from '@/base-ui/breadcrumb'
 
-let firstPath: string
+let firstPath: string // 第一次进入的位置
 
+// 路由
 export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   const routes: RouteRecordRaw[] = []
 
@@ -43,6 +44,9 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   return routes
 }
 
+export { firstPath }
+
+// 面包屑
 export function getBreadcrumbs(userMenus: any[], path: string): IBreadcrumb[] {
   const crumbs: IBreadcrumb[] = []
 
@@ -68,6 +72,7 @@ export function getBreadcrumbs(userMenus: any[], path: string): IBreadcrumb[] {
   return crumbs
 }
 
+// 权限数组
 export function mapMenusToPermissions(userMenus: any[]): string[] {
   const permissions: string[] = []
 
@@ -86,4 +91,20 @@ export function mapMenusToPermissions(userMenus: any[]): string[] {
   return permissions
 }
 
-export { firstPath }
+export function mapMenusToLeafKeys(menus: any[]): number[] {
+  const leafKeys: number[] = []
+
+  const _recurseGetLeafKeys = (menuList: any[]) => {
+    menuList.forEach((menu) => {
+      if (menu.children) {
+        _recurseGetLeafKeys(menu.children)
+      } else {
+        leafKeys.push(menu.id)
+      }
+    })
+  }
+
+  _recurseGetLeafKeys(menus)
+
+  return leafKeys
+}

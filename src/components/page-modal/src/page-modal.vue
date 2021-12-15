@@ -1,7 +1,7 @@
 <!--
  * @Author: East
  * @Date: 2021-12-13 17:14:35
- * @LastEditTime: 2021-12-14 13:47:36
+ * @LastEditTime: 2021-12-15 14:23:56
  * @LastEditors: Please set LastEditors
  * @Description: 模态框 -- 弹出 新建 or 编辑
  * @FilePath: \vue3-ts-cms-02\src\components\page-modal\src\page-modal.vue
@@ -15,6 +15,10 @@
     destroy-on-close
   >
     <east-form v-bind="modalConfig" v-model="formData"></east-form>
+
+    <!-- 另外的插槽，定制化模态框的东西，如菜单权限树等 -->
+    <slot></slot>
+
     <template #footer>
       <span class="dialog-footer">
         <el-button size="mini" @click="dialogVisible = false">Cancel</el-button>
@@ -50,6 +54,10 @@ export default defineComponent({
       type: Object,
       default: () => ({})
     },
+    otherInfo: {
+      type: Object,
+      default: () => ({})
+    },
     pageName: {
       type: String,
       required: true
@@ -80,19 +88,19 @@ export default defineComponent({
     // 提交事件
     const store = useStore()
     const handleComfirmClick = async () => {
-      console.log('点击 confirm 按钮')
+      console.log(props.otherInfo)
       if (props.defaultInfo.id) {
         // 修改
         await store.dispatch('system/editPageDataAction', {
           pageName: props.pageName,
-          editData: { ...formData.value },
+          editData: { ...formData.value, ...props.otherInfo },
           id: props.defaultInfo.id
         })
       } else {
         // 新增
         await store.dispatch('system/createPageDataAction', {
           pageName: props.pageName,
-          createData: { ...formData.value }
+          createData: { ...formData.value, ...props.otherInfo }
         })
       }
       dialogVisible.value = false
